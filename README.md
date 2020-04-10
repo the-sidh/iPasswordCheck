@@ -74,8 +74,8 @@ Perhaps the most important aspect of a good code is good domain desigin. The dis
 
 In the highest level, there are two layers
 
-* Application -> Routes, Controller and web framework code
-* Domain -> The code that represents the problem to be solved
+* [Application](https://github.com/the-sidh/iPasswordCheck/tree/master/src/main/kotlin/com/icompany/ipasswordcheck/application) -> Routes, Controller and web framework code
+* [Domain](https://github.com/the-sidh/iPasswordCheck/tree/master/src/main/kotlin/com/icompany/ipasswordcheck/domain) -> The code that represents the problem to be solved
 
 If it was the the case I should have another high level layer, resources. It would contain implementaion of HTTP clients, Database repositories, queue producer and consumers, amoung others.
 
@@ -102,11 +102,14 @@ We got 100% bussiness rules coverage and partial coverage of exceptions. Some of
 I also included a few tests to verify performance, expecting a absurd big password to be validated under one second.
 I know that using regular expression that validation would always be very fast, but in the future, if now rules are added that make it impossible to use a regular expression, this performance constrain should still be assured by those tests.
 
+The tests can be found [here](https://github.com/the-sidh/iPasswordCheck/tree/master/src/test/kotlin/com/icompany/ipasswordcheck)
+
 ## On the component tests
 Component tests should evaluate if the application behavior as a whole is acting as expected. It covers fewer bussiness rules, but is concerned if the apropriate response is provided, such as correct HTTP statuses and well formatted response.
 I used restAssured to run the server and assert the results.
 It was not the case with the current challenge, but a service usually depends uppon consuming external resources, such as other APIs. If that was the case, those external APIs should be mocked. Mockserver is a good tool to be used on that cases.
 This is a import difference amoung component and integrated tests. The second runs in the realease phase, and should consume actual external resources.
+Component tests can be found [here](https://github.com/the-sidh/iPasswordCheck/tree/master/src/componentTest/kotlin/com/icompany/ipasswordcheck/web)
 
 ## On the integrated tests
 As stated before, I chose to do integrated tests using a Postman collection.
@@ -128,6 +131,8 @@ const val LOWER_CASE = "(?=.*[a-z])"
 const val UPPER_CASE = "(?=.*[A-Z])"
 const val MINIMUM_SIZE = ".{9}"
 ```
+
+The above code can be found on the [ValidatePasswordService](https://github.com/the-sidh/iPasswordCheck/blob/master/src/main/kotlin/com/icompany/ipasswordcheck/domain/services/ValidatePasswordService.kt) class.
 
 ## On the joice of the web framework
 
