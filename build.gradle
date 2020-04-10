@@ -22,6 +22,7 @@ plugins {
 
 apply plugin: 'kotlin'
 apply plugin: 'application'
+apply plugin: 'jacoco'
 
 dockerCompose {
     useComposeFiles = ['docker-compose.yml']
@@ -44,6 +45,62 @@ task runExample(type: JavaExec) {
     main = 'com.icompany.ipasswordcheck.application.App'
     classpath = sourceSets.main.runtimeClasspath
 }
+
+def ignorePackagesInJacocoReport = { classDirectories ->
+    files(classDirectories.files.collect {
+        fileTree(dir: it,
+                exclude: [
+                        'com/icompany/ipasswordcheck/application/config/modules**',
+                        'com/icompany/ipasswordcheck/application/web/routes**',
+                        'com/icompany/ipasswordcheck/application/config/**',
+                        'com/icompany/ipasswordcheck/application/App**',
+                        'com/icompany/ipasswordcheck/domain/exceptions/APIException**',
+                ])
+    })
+}
+
+jacoco {
+    // You may modify the Jacoco version here, ignore generated code. toString, hashCode...
+    toolVersion = "0.8.4"
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.8
+                counter = 'LINE'
+            }
+        }
+        rule {
+            limit {
+                minimum = 0.76
+                counter = 'BRANCH'
+            }
+        }
+    }
+
+    afterEvaluate {
+        classDirectories = ignorePackagesInJacocoReport(classDirectories)
+    }
+}
+
+jacocoTestReport {
+
+    reports.xml.enabled = true
+    reports.html.enabled = true
+
+    afterEvaluate {
+        classDirectories = ignorePackagesInJacocoReport(classDirectories)
+    }
+}
+
+check.dependsOn jacocoTestCoverageVerification
+jacocoTestReport.dependsOn test
+jacocoTestCoverageVerification.dependsOn test
+test.finalizedBy jacocoTestReport
+test.finalizedBy jacocoTestCoverageVerification
+
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
@@ -95,4 +152,4 @@ task componentTest(type: Test) {
     mustRunAfter test
 }
 
-test.finalizedBy componentTest
+
