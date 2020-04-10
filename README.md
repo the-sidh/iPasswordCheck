@@ -85,8 +85,8 @@ The domain layer is more interesting. When looking at it's content, one should e
 
 I divided it on the following lower level abstractions:
 
-* Entities -> the data classes that represents password validation requests and responses
-* Service -> the layer where the bussiness rules inhabit. In the challenge, it contains the code that actually does the validation of the password format.
+* [Entities](https://github.com/the-sidh/iPasswordCheck/tree/master/src/main/kotlin/com/icompany/ipasswordcheck/domain/entities) -> the data classes that represents password validation requests and responses
+* [Service](https://github.com/the-sidh/iPasswordCheck/tree/master/src/main/kotlin/com/icompany/ipasswordcheck/domain/services) -> the layer where the bussiness rules inhabit. In the challenge, it contains the code that actually does the validation of the password format.
 
 The challenge was simple and did not required lowest abstraction layes such as HTTP clients of database repositories.
 If that was the case I would have a gateways layer inside domain, with interfaces that would define how the implementations on the above mentioned resources layer should behave.
