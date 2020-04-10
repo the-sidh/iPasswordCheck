@@ -51,11 +51,17 @@ ___
 # Running the tests
 
 The code was done relying heavily on TDD, so we have a comprehensive code coverage.
+
 You can run the unit tests using gradle
+
 ```
 gradle test
 ```
-Automatic end-to-end testing is supplied by component testing, that evaluates the business rules supplied on the challenge. You can run the components tests also by using gradle
+
+Automatic end-to-end testing is supplied by component testing, that evaluates the business rules supplied on the challenge. 
+
+You can run the components tests also by using gradle
+
 ```
 gradle componentTest
 ```
@@ -63,6 +69,7 @@ gradle componentTest
 ## Integration tests
 
 Integration tests can be achieved by using the postman collection supplied with the code.
+
 ![testResults](https://github.com/the-sidh/iPasswordCheck/blob/master/integratedTestsResult.png)
 
 # Code discussion 
@@ -106,15 +113,21 @@ The tests can be found [here](https://github.com/the-sidh/iPasswordCheck/tree/ma
 
 ## On the component tests
 Component tests should evaluate if the application behavior as a whole is acting as expected. It covers fewer bussiness rules, but is concerned if the apropriate response is provided, such as correct HTTP statuses and well formatted response.
+
 I used restAssured to run the server and assert the results.
+
 It was not the case with the current challenge, but a service usually depends uppon consuming external resources, such as other APIs. If that was the case, those external APIs should be mocked. Mockserver is a good tool to be used on that cases.
 This is a import difference amoung component and integrated tests. The second runs in the realease phase, and should consume actual external resources.
+
 Component tests can be found [here](https://github.com/the-sidh/iPasswordCheck/tree/master/src/componentTest/kotlin/com/icompany/ipasswordcheck/web)
 
 ## On the integrated tests
 As stated before, I chose to do integrated tests using a Postman collection.
+
 It may be argued it is not be the best solution because there is no garantee that the colleaction will be updated when a new funcionality is released. I believe that it is not entirely true. The execution of the tests should be part of the release proccess and ensuring that the collection is up-to-date should be a concearn of entire team, and a obrigatory concern of QA.
+
 I think that the discipline of BDD (behavior driven development) has great benefits, but is hard to be fully implemented for some reasons as:
+
 * hard to implement frameworks, such as cucumber
 * depends product and bussiness teams feeling comfortable to deal with code
 
