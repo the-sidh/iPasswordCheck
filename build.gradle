@@ -1,0 +1,98 @@
+
+
+buildscript {
+    ext {
+        kotlinVersion = '1.3.21'
+        detektVersion = '1.0.0.RC9'
+        cucumberVersion = '4.7.1'
+    }
+
+   repositories {
+       mavenCentral()
+    }
+
+    dependencies {
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${kotlinVersion}")
+    }
+}
+
+plugins {
+    id 'com.avast.gradle.docker-compose' version '0.7.1'
+}
+
+apply plugin: 'kotlin'
+apply plugin: 'application'
+
+dockerCompose {
+    useComposeFiles = ['docker-compose.yml']
+}
+
+repositories {
+    mavenCentral()
+}
+
+group 'org.example'
+version '1.0-SNAPSHOT'
+mainClassName = 'com.icompany.ipasswordcheck.application.App'
+sourceCompatibility = 1.8
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+task runExample(type: JavaExec) {
+    main = 'com.icompany.ipasswordcheck.application.App'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    // Swagger
+    compile 'org.webjars:swagger-ui:3.17.6'
+    //Javalin
+    compile 'io.javalin:javalin:2.3.0'
+    compile 'org.slf4j:slf4j-simple:1.7.25'
+    compile 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.6'
+    compile 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:2.9.2'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.9.6'
+    compile("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.9.4")
+    //DI
+    compile 'org.koin:koin-core:1.0.0'
+
+    //Testing
+    testCompile 'org.junit.jupiter:junit-jupiter:5.4.1'
+    testCompile 'io.mockk:mockk:1.9.1'
+    testCompile "io.rest-assured:rest-assured:4.0.0"
+
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "PASSED", "FAILED", "SKIPPED"
+    }
+}
+sourceSets {
+    componentTest {
+        compileClasspath += sourceSets.main.output + configurations.testCompile + sourceSets.test.output
+        runtimeClasspath += output + compileClasspath + configurations.testRuntime
+    }
+}
+
+task componentTest(type: Test) {
+    useJUnitPlatform()
+    description = 'Runs the component tests.'
+    group = 'verification'
+    testClassesDirs = sourceSets.componentTest.output.classesDirs
+    classpath = sourceSets.componentTest.runtimeClasspath
+    outputs.upToDateWhen { false }
+    mustRunAfter test
+}
+
+test.finalizedBy componentTest
