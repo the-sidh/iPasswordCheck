@@ -4,7 +4,7 @@ Rest API that validates if a provided password follows a set of rules specified 
 
 # Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for testing purposes. 
+These instructions will get you a instance of the project up and running on your local machine for testing purposes. 
 
 ## Running
 
@@ -16,7 +16,7 @@ Use gradle to run the application
 
 # API endpoints
 
-This endpoint allow you to validate if a given password follows the formatting rules defined by the challenge.
+This endpoint allows you to validate if a given password follows the formatting rules defined by the challenge.
 
 There is a [a Postman collection](https://github.com/the-sidh/iPasswordCheck/blob/master/postman/iPasswordCheck.postman_collection.json) supplied with the code that has sample request for convenience.
 
@@ -68,13 +68,13 @@ gradle componentTest
 
 ## Integration tests
 
-Integration tests can be achieved by using the postman collection supplied with the code.
+Integration tests can be achieved using the postman collection supplied with the code.
 
 ![testResults](https://github.com/the-sidh/iPasswordCheck/blob/master/integratedTestsResult.png)
 
 # Code discussion 
 
-Despite been a challenge based a very simple set of rules, I believe it achieves the goal to provide good discussion on technical choices. I'll disgress about some of those decisions on the sections bellow
+Despite been a challenge based on a very simple set of rules, I believe it achieves the goal to provide good discussion on technical choices. I'll disgress about some of those decisions on the sections bellow
 
 ## On the domain design
 Perhaps the most important aspect of a good code is good domain desigin. The discipline of Domain Driven Design (DDD) specifies clear distinction amoung application layers. 
