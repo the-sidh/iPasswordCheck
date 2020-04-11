@@ -14,7 +14,7 @@ Use gradle to run the application
 ./gradlew run
 ```
 
-# API endpoints
+# API endpoint
 
 This endpoint allows you to validate if a given password follows the formatting rules defined by the challenge.
 
@@ -77,7 +77,7 @@ Integration tests can be achieved using the postman collection supplied with the
 Despite been a challenge based on a very simple set of rules, I believe it achieves the goal to provide good discussion on technical choices. I'll disgress about some of those decisions on the sections bellow
 
 ## On the domain design
-Perhaps the most important aspect of a good code is good domain desigin. The discipline of Domain Driven Design (DDD) specifies clear distinction amoung application layers. 
+Perhaps the most important aspect of good code is good domain desigin. The discipline of Domain Driven Design (DDD) specifies clear distinction amoung application layers. 
 
 In the highest level, there are two layers
 
